@@ -7,6 +7,6 @@ Note taking app with React and Firebase. Styled with Material UI.
 - Password reset with Firebase
 - Protected Routes in React with Authorization
 
-Continously deployed with AWS Amplify:
+Continous deployment with AWS Amplify:
 
 https://master.d14eapy6yzo3qk.amplifyapp.com/
