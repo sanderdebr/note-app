@@ -2,7 +2,8 @@ import app from 'firebase/app';
 import 'firebase/auth';
 
 const config = {
-    apiKey: process.env.REACT_APP_API_KEY,
+    // apiKey: process.env.REACT_APP_API_KEY,
+    apiKey: "AIzaSyBSR9Wz1uUl3KhzC-AB8jsCtlBtcZ1YF-M",
     authDomain: "note-app-771cb.firebaseapp.com",
     databaseURL: "https://note-app-771cb.firebaseio.com",
     projectId: "note-app-771cb",
@@ -33,4 +34,5 @@ class Firebase {
     doPasswordUpdate = password =>
         this.auth.currentUser.updatePassword(password);
 }
+
 export default Firebase;

@@ -8,6 +8,9 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 
+import SignOutButton from '../SignOut';
+import { AuthUserContext } from '../Session';
+
 const useStyles = makeStyles(theme => ({
   appBar: {
     borderBottom: `1px solid ${theme.palette.divider}`,
@@ -18,12 +21,28 @@ const useStyles = makeStyles(theme => ({
   toolbarTitle: {
     flexGrow: 1,
   },
-  link: {
+  btn: {
     margin: theme.spacing(1, 1.5),
   },
+  linkBtn: {
+    margin: '0',
+    padding: '0',
+    textDecoration: 'none',
+    color: 'white'
+  }
 }));
 
-const Navigation = () => {
+const Navigation = () => (
+  <div>
+    <AuthUserContext.Consumer>
+      {authUser =>
+        authUser ? <NavigationAuth /> : <NavigationNonAuth />
+      }
+    </AuthUserContext.Consumer>
+  </div>
+);
+
+const NavigationAuth = () => {
   const classes = useStyles();
 
   return (
@@ -33,18 +52,35 @@ const Navigation = () => {
           NoteTaker
         </Typography>
         <nav>
-          <Link className={classes.link} to={ROUTES.SIGN_IN}>Sign In</Link>
-          <Link className={classes.link} to={ROUTES.LANDING}>Landing</Link>
-          <Link className={classes.link} to={ROUTES.HOME}>Home</Link>
-          <Link className={classes.link} to={ROUTES.ACCOUNT}>Account</Link>
-          <Link className={classes.link} to={ROUTES.ADMIN}>Admin</Link>
+          <Link className={classes.btn} to={ROUTES.LANDING}>Landing</Link>
+          <Link className={classes.btn} to={ROUTES.HOME}>Home</Link>
+          <Link className={classes.btn} to={ROUTES.ACCOUNT}>Account</Link>
+          {/* <Link className={classes.btn} to={ROUTES.ADMIN}>Admin</Link> */}
         </nav>
-        <Button href="#" color="primary" variant="contained" className={classes.link}>
-          SIGN UP
-        </Button>
-        <Button href="#" color="primary" variant="contained" className={classes.link}>
-          SIGN IN
-        </Button>
+        <SignOutButton />
+      </Toolbar>
+    </AppBar>
+  );
+};
+
+const NavigationNonAuth = () => {
+  const classes = useStyles();
+
+  return (
+    <AppBar className={classes.appBar}>
+      <Toolbar className={classes.toolbar}>
+        <Typography variant="h6" color="inherit" noWrap className={classes.toolbarTitle}>
+          NoteTaker
+        </Typography>
+        <nav>
+          <Link className={classes.btn} to={ROUTES.LANDING}>Landing</Link>
+        </nav>
+        <Link to={ROUTES.SIGN_UP} className={classes.linkBtn}>
+          <Button color="primary" variant="contained" className={classes.btn}>Sign Up</Button>
+        </Link>
+        <Link to={ROUTES.SIGN_IN} className={classes.linkBtn}>
+          <Button color="primary" variant="contained" className={classes.btn}>Sign In</Button>
+        </Link>
       </Toolbar>
     </AppBar>
   );
