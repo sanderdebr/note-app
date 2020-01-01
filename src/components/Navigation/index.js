@@ -29,6 +29,10 @@ const useStyles = makeStyles(theme => ({
     padding: '0',
     textDecoration: 'none',
     color: 'white'
+  },
+  linkLogo: {
+    textDecoration: 'none',
+    color: 'white'
   }
 }));
 
@@ -49,13 +53,12 @@ const NavigationAuth = () => {
     <AppBar className={classes.appBar}>
       <Toolbar className={classes.toolbar}>
         <Typography variant="h6" color="inherit" noWrap className={classes.toolbarTitle}>
-          NoteTaker
+          <Link className={classes.linkLogo} to={ROUTES.LANDING}>NoteTaker</Link>
         </Typography>
         <nav>
           <Link className={classes.btn} to={ROUTES.LANDING}>Landing</Link>
           <Link className={classes.btn} to={ROUTES.HOME}>Home</Link>
           <Link className={classes.btn} to={ROUTES.ACCOUNT}>Account</Link>
-          {/* <Link className={classes.btn} to={ROUTES.ADMIN}>Admin</Link> */}
         </nav>
         <SignOutButton />
       </Toolbar>
@@ -70,11 +73,8 @@ const NavigationNonAuth = () => {
     <AppBar className={classes.appBar}>
       <Toolbar className={classes.toolbar}>
         <Typography variant="h6" color="inherit" noWrap className={classes.toolbarTitle}>
-          NoteTaker
+          <Link className={classes.linkLogo} to={ROUTES.LANDING}>NoteTaker</Link>
         </Typography>
-        <nav>
-          <Link className={classes.btn} to={ROUTES.LANDING}>Landing</Link>
-        </nav>
         <Link to={ROUTES.SIGN_UP} className={classes.linkBtn}>
           <Button color="primary" variant="contained" className={classes.btn}>Sign Up</Button>
         </Link>

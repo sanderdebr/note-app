@@ -1,5 +1,6 @@
 import React from 'react';
 import { withFirebase } from '../Firebase';
+import { withAuthentication } from '../Session';
 
 import AppBase from './app-base';
 
@@ -9,6 +10,6 @@ const App = () => (
   </div>
 );
 
-const AppWithFirebase = withFirebase(AppBase);
+const AppWithFirebase = withAuthentication(withFirebase(AppBase));
 
 export default App;

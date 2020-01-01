@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import * as ROUTES from '../../constants/routes';
 
 import Avatar from '@material-ui/core/Avatar';
@@ -13,13 +14,19 @@ import Typography from '@material-ui/core/Typography';
 
 import { withStyles } from '@material-ui/styles';
 
-const styles = theme => ({
+import ForgotPassword from '../PasswordForget';
+
+const styles = theme => {
+
+  // console.log(theme);
+  
+  return ({
   root: {
     height: '100vh',
     marginTop: '50px',
   },
   image: {
-    backgroundImage: 'url(https://source.unsplash.com/random)',
+    backgroundImage: 'url(https://source.unsplash.com/collection/8469893)',
     backgroundRepeat: 'no-repeat',
     backgroundColor:
       theme.palette.type === 'dark' ? theme.palette.grey[900] : theme.palette.grey[50],
@@ -45,12 +52,19 @@ const styles = theme => ({
   },
   errorMsg: {
       color: 'red'
+  },
+  link: {
+    textDecoration: 'none', 
+    color: theme.palette.primary.main,
+    cursor: 'pointer'
   }
-});
+})
+};
 
 const INITIAL_STATE = {
   email: '',
   password: '',
+  setOpen: false,
   error: null,
 };
 
@@ -62,6 +76,7 @@ class SignInFormBase extends Component {
 
   onSubmit = event => {
     const { email, password } = this.state;
+
     this.props.firebase
       .doSignInWithEmailAndPassword(email, password)
       .then(authUser => {
@@ -78,12 +93,38 @@ class SignInFormBase extends Component {
     this.setState({ [event.target.name]: event.target.value });
   };
 
+  handleClickOpen = () => {
+    this.setState({ setOpen: true })
+  };
+
+  handleClose = value => {
+    this.setState({ setOpen: false })
+  };
+
+  isInvalidEmail = () => {
+    if (this.state.email === '') return true;
+  };
+
+  onPassReset = event => {
+    const { email } = this.state;
+    this.props.firebase
+      .doPasswordReset(email)
+      .then(() => {
+        this.setState({ ...INITIAL_STATE });
+      })
+      .catch(error => {
+        this.setState({ error });
+      });
+    event.preventDefault();
+  }
+
   render() {
     const { classes } = this.props;
 
     const {
       email,
       password,
+      setOpen,
       error,
     } = this.state;
 
@@ -145,6 +186,23 @@ class SignInFormBase extends Component {
             </Button>
             {error && <p className={classes.errorMsg}>{error.message}</p>}
           </form>
+          <Grid container>
+          <Grid item xs>
+              <div onClick={this.handleClickOpen} className={classes.link}>Forgot password?</div>
+              <ForgotPassword 
+                open={this.state.setOpen} 
+                handleClose={this.handleClose} 
+                email={this.state.email}
+                onChange={this.onChange}
+                onPassReset={this.onPassReset}
+                isInvalidEmail={this.isInvalidEmail()}
+                error={this.state.error}
+              />
+            </Grid>
+            <Grid item>
+              <Link className={classes.link} to={ROUTES.SIGN_UP}>Don't have an account? Sign up</Link>
+            </Grid>
+          </Grid>
           </div>
         </Grid>
       </Grid>

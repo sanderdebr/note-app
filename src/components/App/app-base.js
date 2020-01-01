@@ -5,8 +5,6 @@ import {
 } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-import { AuthUserContext } from '../Session';
-
 import Navigation from '../Navigation';
 import LandingPage from '../Landing';
 import SignUpPage from '../SignUp';
@@ -62,10 +60,7 @@ class AppBase extends Component {
   render() {
     const { classes } = this.props;
 
-    console.log('firebase:', this.props.firebase);
-
     return (
-      <AuthUserContext.Provider value={this.state.authUser}>
         <ThemeProvider theme={theme}>
           <Router>
             <div>
@@ -86,7 +81,6 @@ class AppBase extends Component {
             </div>
           </Router>
         </ThemeProvider>
-      </AuthUserContext.Provider>
     );
   }
 };
